@@ -53,7 +53,7 @@ const Register = () => {
           <option value="admin">Admin</option>
           <option value="visitor">Visitor</option>
         </select>
-        <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
+                <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
           Register
         </button>
       </form>
