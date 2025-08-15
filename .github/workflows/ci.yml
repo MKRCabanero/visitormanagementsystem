@@ -39,15 +39,13 @@ jobs:
         echo "Secret 2 is: $JWT_SECRET"
         echo "Secret 3 is: $PORT"
       
-    - run: pm2 stop all
+    - run: pm2 stop all || true
 
     # Install dependencies for backend
     - name: Install Backend Dependencies
       working-directory: ./backend
       run: | 
-       npm install --global yarn
-       yarn --version
-       yarn install
+        npm install
       
     # Install dependencies for frontend
     - name: Install Frontend Dependencies
@@ -61,17 +59,11 @@ jobs:
 
     # Run backend tests
     - name: Run Backend Tests
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        PORT: ${{ secrets.PORT }}
       working-directory: ./backend
       run: npm test
-
-
-    - run: npm ci
-    - run: | 
-        cd ./backend
+      
+    - working-directory: ./backend
+      run: | 
         touch .env
         echo "${{ secrets.PROD }}" > .env
 
