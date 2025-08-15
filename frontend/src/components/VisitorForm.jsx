@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
 const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor }) => {
   const { user } = useAuth();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ name: '', age: '', sex: '', type: '' });
 
@@ -33,6 +33,12 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         );
         setVisitors(visitors.map(v => (v._id === data._id ? data : v)));
         setEditingVisitor(null);
+        navigate('/badge', {
+          state: {
+            record: data,
+            userId: user?.id || user?._id || user?.userId || user?.uid,
+          },
+        });
       } else {
         const { data } = await axiosInstance.post(
           '/api/visitors',
@@ -42,7 +48,12 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         setVisitors([...(visitors || []), data]);
         setEditingVisitor(null);
         setFormData({ name: '', age: '', sex: '', type: '' });
-        ;
+        navigate('/badge', {
+          state: {
+            record: { ...data, ...formData }, // ensure fields show even if API omits some
+            userId: user?.id || user?._id || user?.userId || user?.uid,
+          },
+        });
       }
     } catch (error) {
       alert('Failed to save visitor.');
