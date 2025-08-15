@@ -1,10 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
 export default function VisitorList({ visitors = [], setVisitors, setEditingVisitor }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const fmtDate = (d) => (d ? new Date(d).toLocaleString() : '—');
+
+  const userIdOf = (v) =>
+    (v.userId && (v.userId._id || v.userId)) || v.createdBy || '—';
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this visitor?')) return;
@@ -47,6 +52,14 @@ export default function VisitorList({ visitors = [], setVisitors, setEditingVisi
                   <div className="flex flex-wrap gap-2">
                     <button onClick={() => setEditingVisitor?.(v)} className="bg-red-500 text-white px-3 py-2 rounded">
                       Edit
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigate('/badge', { state: { record: v, userId: userIdOf(v) } })
+                      }
+                      className="bg-red-500 text-white px-3 py-2 rounded"
+                    >
+                      Badge
                     </button>
                     <button
                       onClick={() => handleDelete(v._id)}
