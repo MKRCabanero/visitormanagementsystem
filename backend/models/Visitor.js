@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 
+//Visitor schema
 const visitorSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: [true, 'Name is require'], trim: true, minlength:1, maxlength: 80 },
