@@ -36,8 +36,4 @@ const loginUser = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c9043d55187dd4c3c705c7a497eb0fe4509092ba
 module.exports = { registerUser, loginUser};
