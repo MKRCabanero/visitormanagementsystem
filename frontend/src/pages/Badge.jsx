@@ -13,7 +13,7 @@ export default function Badge() {
   return (
     <div className="w-1/2 md:w-full ...">
       <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
-        <h1 className="text-xl font-semibold mb-3">Visitor information recorded</h1>
+        <h1 className="text-xl font-semibold mb-3">Visitor Information Recorded</h1>
 
         <dl className="list-none md:list-disc ...">
           <div className="flex">
@@ -40,7 +40,7 @@ export default function Badge() {
       </div>
 
       <div className="mt-4">
-        <Link to="/visitors" className="px-3 py-1 rounded border">
+        <Link to="/visitors" className="bg-brand text-white px-4 py-2 rounded hover:bg-[#072D50]">
           Back
         </Link>
       </div>

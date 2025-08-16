@@ -53,20 +53,20 @@ export default function VisitorList({ visitors = [], setVisitors, setEditingVisi
                 <td className="p-3 border-b">{fmtDate(v.createdAt)}</td>
                 <td className="p-3 border-b">
                   <div className="flex flex-wrap gap-2">
-                    <button onClick={() => setEditingVisitor?.(v)} className="bg-red-500 text-white px-3 py-2 rounded">
+                    <button onClick={() => setEditingVisitor?.(v)} className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-[#D97706]">
                       Edit
                     </button>
                     <button
                       onClick={() =>
                         navigate('/badge', { state: { record: v, userId: userIdOf(v) } })
                       }
-                      className="bg-red-500 text-white px-3 py-2 rounded"
+                      className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-[#1E40AF]"
                     >
                       Badge
                     </button>
                     <button
                       onClick={() => handleDelete(v._id)}
-                      className="bg-red-500 text-white px-3 py-2 rounded"
+                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-[#b91C1C]"
                     >
                       Delete
                     </button>
