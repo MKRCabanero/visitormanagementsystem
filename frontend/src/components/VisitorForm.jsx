@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
 const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor }) => {
   const { user } = useAuth();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({ name: '', age: '', sex: '', type: '' });
+  const [formData, setFormData] = useState({ name: '', age: '', sex: '', office: '' });
 
   useEffect(() => {
     if (editingVisitor) {
@@ -15,10 +15,10 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         name: editingVisitor.name || '',
         age: editingVisitor.age || '',
         sex: editingVisitor.sex || '',
-        type: editingVisitor.type || '',
+        office: editingVisitor.office || '',
       });
     } else {
-      setFormData({ name: '', age: '', sex: '', type: '' });
+      setFormData({ name: '', age: '', sex: '', office: '' });
     }
   }, [editingVisitor]);
 
@@ -33,6 +33,12 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         );
         setVisitors(visitors.map(v => (v._id === data._id ? data : v)));
         setEditingVisitor(null);
+        navigate('/badge', {
+          state: {
+            record: data,
+            userId: user?.id || user?._id || user?.userId || user?.uid,
+          },
+        });
       } else {
         const { data } = await axiosInstance.post(
           '/api/visitors',
@@ -41,8 +47,13 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         );
         setVisitors([...(visitors || []), data]);
         setEditingVisitor(null);
-        setFormData({ name: '', age: '', sex: '', type: '' });
-        ;
+        setFormData({ name: '', age: '', sex: '', office: '' });
+        navigate('/badge', {
+          state: {
+            record: { ...data, ...formData }, // ensure fields show even if API omits some
+            userId: user?.id || user?._id || user?.userId || user?.uid,
+          },
+        });
       }
     } catch (error) {
       alert('Failed to save visitor.');
@@ -82,17 +93,16 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         <option>Female</option>
       </select>
 
-      <select
-        value={formData.type}
-        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+      <input
+        type="text"
+        placeholder="Office to visit"
+        value={formData.office}
+        onChange={(e) => setFormData({ ...formData, office: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
-      >
-        <option value="">Select Visitor Type</option>
-        <option>By Appointment</option>
-        <option>Walk-in</option>
-      </select>
+        required
+      />
 
-      <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+      <button type="submit" className="w-full bg-brand text-white p-2 rounded hover:bg-[#072D50]">
         {editingVisitor ? 'Update Visitor' : 'Add Visitor'}
       </button>
     </form>

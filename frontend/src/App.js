@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Visitors from './pages/Visitors';
+import Badge from './pages/Badge';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/visitors" element={<Visitors />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/badge" element={<Badge />} />
       </Routes>
     </Router>
   );

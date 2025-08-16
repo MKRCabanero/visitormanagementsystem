@@ -1,10 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
-export default function VisitorList({ visitors = [], setVisitors, setEditingVisitor }) {
+export default function VisitorList({ visitors = [], setVisitors, setEditingVisitor, isVisitor }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  if (isVisitor) {
+    return (<p className = "text-sm text-gray-600"> You don't have access to the visitors' list.</p>
+  );}
 
   const fmtDate = (d) => (d ? new Date(d).toLocaleString() : '—');
+  const userIdOf = (v) =>
+    (v.userId && (v.userId._id || v.userId)) || v.createdBy || '—';
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this visitor?')) return;
@@ -22,7 +30,7 @@ export default function VisitorList({ visitors = [], setVisitors, setEditingVisi
             <th className="text-left p-3 border-b">Name</th>
             <th className="text-left p-3 border-b">Age</th>
             <th className="text-left p-3 border-b">Sex</th>
-            <th className="text-left p-3 border-b">Type</th>
+            <th className="text-left p-3 border-b">Office</th>
             <th className="text-left p-3 border-b">Created</th>
             <th className="text-left p-3 border-b w-[240px]">Actions</th>
           </tr>
@@ -41,16 +49,24 @@ export default function VisitorList({ visitors = [], setVisitors, setEditingVisi
                 <td className="p-3 border-b">{v.name || '—'}</td>
                 <td className="p-3 border-b">{v.age || '—'}</td>
                 <td className="p-3 border-b">{v.sex || '—'}</td>
-                <td className="p-3 border-b">{v.type || '—'}</td>
+                <td className="p-3 border-b">{v.office || '—'}</td>
                 <td className="p-3 border-b">{fmtDate(v.createdAt)}</td>
                 <td className="p-3 border-b">
                   <div className="flex flex-wrap gap-2">
-                    <button onClick={() => setEditingVisitor?.(v)} className="bg-red-500 text-white px-3 py-2 rounded">
+                    <button onClick={() => setEditingVisitor?.(v)} className="bg-amber-500 text-white px-3 py-2 rounded hover:bg-[#D97706]">
                       Edit
                     </button>
                     <button
+                      onClick={() =>
+                        navigate('/badge', { state: { record: v, userId: userIdOf(v) } })
+                      }
+                      className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-[#1E40AF]"
+                    >
+                      Badge
+                    </button>
+                    <button
                       onClick={() => handleDelete(v._id)}
-                      className="bg-red-500 text-white px-3 py-2 rounded"
+                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-[#b91C1C]"
                     >
                       Delete
                     </button>
