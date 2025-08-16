@@ -54,14 +54,16 @@ const Visitors = () => {
         isVisitor={isVisitor}
         user={user}                         // used by the form for auth + badge ID fallback
       />
-
-        <VisitorList
-          visitors={visitors}
-          setVisitors={setVisitors}
-          setEditingVisitor={setEditingVisitor}
-        />
+      {!isVisitor? (
+        <div className="mt-6">
+          <VisitorList
+            visitors={visitors}
+            setVisitors={setVisitors}
+            setEditingVisitor={setEditingVisitor}
+          />
+        </div>
+      ): null }
     </div>
   );
 };
-
 export default Visitors;

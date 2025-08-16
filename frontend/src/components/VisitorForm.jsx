@@ -7,7 +7,7 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({ name: '', age: '', sex: '', type: '' });
+  const [formData, setFormData] = useState({ name: '', age: '', sex: '', office: '' });
 
   useEffect(() => {
     if (editingVisitor) {
@@ -15,10 +15,10 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         name: editingVisitor.name || '',
         age: editingVisitor.age || '',
         sex: editingVisitor.sex || '',
-        type: editingVisitor.type || '',
+        office: editingVisitor.office || '',
       });
     } else {
-      setFormData({ name: '', age: '', sex: '', type: '' });
+      setFormData({ name: '', age: '', sex: '', office: '' });
     }
   }, [editingVisitor]);
 
@@ -47,7 +47,7 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         );
         setVisitors([...(visitors || []), data]);
         setEditingVisitor(null);
-        setFormData({ name: '', age: '', sex: '', type: '' });
+        setFormData({ name: '', age: '', sex: '', office: '' });
         navigate('/badge', {
           state: {
             record: { ...data, ...formData }, // ensure fields show even if API omits some
@@ -93,15 +93,14 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         <option>Female</option>
       </select>
 
-      <select
-        value={formData.type}
-        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+      <input
+        type="text"
+        placeholder="Office to visit"
+        value={formData.office}
+        onChange={(e) => setFormData({ ...formData, office: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
-      >
-        <option value="">Select Visitor Type</option>
-        <option>By Appointment</option>
-        <option>Walk-in</option>
-      </select>
+        required
+      />
 
       <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
         {editingVisitor ? 'Update Visitor' : 'Add Visitor'}
