@@ -29,8 +29,8 @@ export default function Badge() {
             <dd className="flex-1">{rec.sex || '—'}</dd>
           </div>
           <div className="flex">
-            <dt className="w-32 font-medium">Type:</dt>
-            <dd className="flex-1">{rec.type || '—'}</dd>
+            <dt className="w-32 font-medium">Office to visit:</dt>
+            <dd className="flex-1">{rec.office || '—'}</dd>
           </div>
           <div className="flex">
             <dt className="w-32 font-medium">Badge ID:</dt>

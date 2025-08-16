@@ -22,7 +22,7 @@ describe('AddVisitor Function Test', () => {
     
     const req = {
     user: { id: new mongoose.Types.ObjectId() },
-    body: { name: "Kat", age: 12, sex: "Female", type: "Walk-in" }
+    body: { name: "Kat", age: 12, sex: "Female", office: "Accounting" }
   };
     // Mock Visitor that would be created
     const createdVisitor = { _id: new mongoose.Types.ObjectId(), userId: req.user.id, ...req.body };
@@ -44,7 +44,7 @@ describe('AddVisitor Function Test', () => {
 
     const arg = createStub.firstCall.args[0];
     expect(arg).to.have.property('userId');
-    expect(arg).to.deep.include({ name: 'Kat', age: 12, sex: 'Female', type: 'Walk-in' });
+    expect(arg).to.deep.include({ name: 'Kat', age: 12, sex: 'Female', office: 'Cashier' });
 
     expect(res.status.calledOnceWith(201)).to.be.true;
     expect(res.json.calledOnceWith(createdVisitor)).to.be.true;
@@ -58,7 +58,7 @@ describe('AddVisitor Function Test', () => {
     // Mock request data
     const req = {
       user: { id: new mongoose.Types.ObjectId() },
-      body: { name: "Kat", age: 12, sex: "Female", type: "Walk-in" }
+      body: { name: "Kat", age: 12, sex: "Female", office: "Budget" }
     };
 
     // Mock response object
@@ -88,7 +88,7 @@ describe('Update Function Test', () => {
       name: "Old",
       age: 10,
       sex: "Female",
-      type: "Walk-in",
+      office: "Accounting",
       save: sinon.stub().resolvesThis(), // Mock save method
     };
     // Stub Visitor.findById to return mock visitor
@@ -97,7 +97,7 @@ describe('Update Function Test', () => {
     // Mock request & response
     const req = {
       params: { id: visitorId },
-      body: { name: "New", age: 11, type: "By Appointment" }
+      body: { name: "New", age: 11, office: "Human Resource" }
     };
     const res = {
       json: sinon.spy(), 
@@ -110,7 +110,7 @@ describe('Update Function Test', () => {
     // Assertions
     expect(existingVisitor.name).to.equal("New");
     expect(existingVisitor.age).to.equal(11);
-    expect(existingVisitor.type).to.equal("By Appointment");
+    expect(existingVisitor.office).to.equal("Budget");
     expect(res.status.called).to.be.false; // No error status should be set
     expect(res.json.calledOnce).to.be.true;
 
@@ -168,8 +168,8 @@ describe('GetVisitors Function Test', () => {
 
     // Mock visitor data
     const visitors = [
-      { _id: new mongoose.Types.ObjectId(), name: "Kat", age: 25, sex: "Female", type: "Walk-in" },
-      { _id: new mongoose.Types.ObjectId(), name: "John", age: 30, sex: "Male", type: "By Appointment" }
+      { _id: new mongoose.Types.ObjectId(), name: "Kat", age: 25, sex: "Female", office: "Cashier" },
+      { _id: new mongoose.Types.ObjectId(), name: "John", age: 30, sex: "Male", office: "Budget" }
     ];
 
     // Stub Visitor.find to return mock visitor
@@ -228,7 +228,7 @@ describe('GetVisitor Function Test', () => {
 
     // Mock visitor data
     const visitor = 
-      { _id: visitorId, name: "Kat", age: "12", sex: "Female", type: "Walk-in"};
+      { _id: visitorId, name: "Kat", age: "12", sex: "Female", office: "Human Resource"};
     ;
 
     // Stub Visitor.find to return mock visitors
