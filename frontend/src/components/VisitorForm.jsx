@@ -50,7 +50,7 @@ const VisitorForm = ({ visitors, setVisitors, editingVisitor, setEditingVisitor 
         setFormData({ name: '', age: '', sex: '', office: '' });
         navigate('/badge', {
           state: {
-            record: { ...data, ...formData }, // ensure fields show even if API omits some
+            record: { ...data, ...formData }, 
             userId: user?.id || user?._id || user?.userId || user?.uid,
           },
         });

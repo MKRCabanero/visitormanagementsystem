@@ -1,4 +1,4 @@
-//To ensure authentication prrior access to pages
+//To ensure authentication prior access to pages
 function authUser(req,res, next) {
     if (req.user === null) {
         res.status(403)
